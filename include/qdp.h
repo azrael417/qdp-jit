@@ -136,6 +136,12 @@ namespace QDP {
 #include "qdp_io.h"
 #include "qdp_stdio.h"
 
+#ifdef QDP_NO_HDF5
+#warning not using hdf5
+#else
+#include "qdp_hdf5.h"
+#endif
+
 #ifdef QDP_NO_LIBXML2
 #warning not using libxml2
 #else

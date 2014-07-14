@@ -32,6 +32,10 @@ if QDP_USE_LIBXML2
 libqdp_a_SOURCES += qdp_xmlio.cc qdp_iogauge.cc qdp_qdpio.cc qdp_qio_strings.cc qdp_map_obj_disk.cc
 endif
 
+if QDP_USE_HDF5
+libqdp_a_SOURCES += qdp_hdf5.cc
+endif
+
 libqdp_a_SOURCES += qdp_parscalar_init.cc qdp_parscalar_layout.cc \
 	qdp_parscalar_specific.cc \
 	qdp_scalarsite_specific.cc
