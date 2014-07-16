@@ -50,6 +50,9 @@ namespace Layout
   /*! The API requires this function to be here */
   int nodeNumber(const multi1d<int>& coord) QDP_CONST;
 
+  //! Returns local lexicographical site coordinate from linear index
+  multi1d<int> localLexiCoordFromLinear(const int& linearr) QDP_CONST;
+
   //! The linearized site index within a node for the corresponding lattice coordinate
   /*! The API requires this function to be here */
   int linearSiteIndex(const multi1d<int>& coord) QDP_CONST;
