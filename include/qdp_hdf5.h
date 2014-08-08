@@ -763,18 +763,18 @@ namespace QDP {
 	//template specializations:
 	//complex types
 	//single datum
-	template<>void HDF5::read< PScalar< PScalar< RComplex<float> > > >(const std::string& dataname, ComplexF& datum);
-	template<>void HDF5::read< PScalar< PScalar< RComplex<double> > > >(const std::string& dataname, ComplexD& datum);
+	template<>void HDF5::read< PScalar< PScalar< RComplex<Word<REAL32> > > > >(const std::string& dataname, ComplexF& datum);
+	template<>void HDF5::read< PScalar< PScalar< RComplex<Word<REAL64> > > > >(const std::string& dataname, ComplexD& datum);
 
 	//array value
-	template<>void HDF5::read< PScalar< PScalar< RComplex<float> > > >(const std::string& dataname, multi1d<ComplexF>& datum);
-	template<>void HDF5::read< PScalar< PScalar< RComplex<double> > > >(const std::string& dataname, multi1d<ComplexD>& datum);
+	template<>void HDF5::read< PScalar< PScalar< RComplex<Word<REAL32> > > > >(const std::string& dataname, multi1d<ComplexF>& datum);
+	template<>void HDF5::read< PScalar< PScalar< RComplex<Word<REAL64> > > > >(const std::string& dataname, multi1d<ComplexD>& datum);
 
 	//specializations for Lattice objects
-	template<>void HDF5::read< PScalar< PColorMatrix< RComplex<REAL64>, 3> > >(const std::string& name, LatticeColorMatrixD3& field);
+	template<>void HDF5::read< PScalar< PColorMatrix< RComplex<Word<REAL64> >, 3> > >(const std::string& name, LatticeColorMatrixD3& field);
 
 	//specializations for multi1d<OLattice> objects
-	template<>void HDF5::read< PScalar< PColorMatrix< RComplex<REAL64>, 3> > >(const std::string& name, multi1d<LatticeColorMatrixD3>& field);
+	template<>void HDF5::read< PScalar< PColorMatrix< RComplex<Word<REAL64> >, 3> > >(const std::string& name, multi1d<LatticeColorMatrixD3>& field);
 	//--------------------------------------------------------------------------------
 	//! HDF5 reader class
 	/*!
@@ -1266,24 +1266,24 @@ namespace QDP {
 	//template specializations for OScalar<T> datatypes:
 	//complex types
 	//single datum
-	template<>void HDF5Writer::write< PScalar< PScalar< RComplex<float> > > >(const std::string& dataname, const ComplexF& datum, const bool& overwrite);
-	template<>void HDF5Writer::write< PScalar< PScalar< RComplex<double> > > >(const std::string& dataname, const ComplexD& datum, const bool& overwrite);
+	template<>void HDF5Writer::write< PScalar< PScalar< RComplex<Word<REAL32> > > > >(const std::string& dataname, const ComplexF& datum, const bool& overwrite);
+	template<>void HDF5Writer::write< PScalar< PScalar< RComplex<Word<REAL64> > > > >(const std::string& dataname, const ComplexD& datum, const bool& overwrite);
 
 	//array:
-	template<>void HDF5Writer::write< PScalar< PScalar< RComplex<float> > > >(const std::string& dataname, const multi1d<ComplexF>& datum, const bool& overwrite);
-	template<>void HDF5Writer::write< PScalar< PScalar< RComplex<double> > > >(const std::string& dataname, const multi1d<ComplexD>& datum, const bool& overwrite);
+	template<>void HDF5Writer::write< PScalar< PScalar< RComplex<Word<REAL32> > > > >(const std::string& dataname, const multi1d<ComplexF>& datum, const bool& overwrite);
+	template<>void HDF5Writer::write< PScalar< PScalar< RComplex<Word<REAL64> > > > >(const std::string& dataname, const multi1d<ComplexD>& datum, const bool& overwrite);
 
 	//ColorMatrix
 	//single datum
-	template<>void HDF5Writer::write< PScalar< PColorMatrix< RComplex<REAL32>, 3> > >(const std::string& dataname, const ColorMatrixF3& datum, const bool& overwrite);
-	template<>void HDF5Writer::write< PScalar< PColorMatrix< RComplex<REAL64>, 3> > >(const std::string& dataname, const ColorMatrixD3& datum, const bool& overwrite);
+	template<>void HDF5Writer::write< PScalar< PColorMatrix< RComplex<Word<REAL32> >, 3> > >(const std::string& dataname, const ColorMatrixF3& datum, const bool& overwrite);
+	template<>void HDF5Writer::write< PScalar< PColorMatrix< RComplex<Word<REAL64> >, 3> > >(const std::string& dataname, const ColorMatrixD3& datum, const bool& overwrite);
 
 	//LatticeColorMatrix
-	template<>void HDF5Writer::write< PScalar< PColorMatrix< RComplex<REAL32>, 3> > >(const std::string& name, const LatticeColorMatrixF3& field, const bool& overwrite);
-	template<>void HDF5Writer::write< PScalar< PColorMatrix< RComplex<REAL64>, 3> > >(const std::string& name, const LatticeColorMatrixD3& field, const bool& overwrite);
+	template<>void HDF5Writer::write< PScalar< PColorMatrix< RComplex<Word<REAL32> >, 3> > >(const std::string& name, const LatticeColorMatrixF3& field, const bool& overwrite);
+	template<>void HDF5Writer::write< PScalar< PColorMatrix< RComplex<Word<REAL64> >, 3> > >(const std::string& name, const LatticeColorMatrixD3& field, const bool& overwrite);
 
 	//multi1d<OLattice> specializations
-	template<>void HDF5Writer::write< PScalar< PColorMatrix< RComplex<REAL64>, 3> > >(const std::string& name, const multi1d<LatticeColorMatrixD3>& field, const bool& overwrite);
+	template<>void HDF5Writer::write< PScalar< PColorMatrix< RComplex<Word<REAL64> >, 3> > >(const std::string& name, const multi1d<LatticeColorMatrixD3>& field, const bool& overwrite);
 
 	//FUEL IO:
 	void writeFUEL(const std::string& name, const multi1d<LatticeColorMatrixD3>& field, const bool& overwrite=false);

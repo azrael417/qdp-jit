@@ -550,6 +550,8 @@ fi
 
 AM_CONDITIONAL(QDP_USE_LIBXML2, [test "x${with_libxml2}x" != "xnox" ])
 
+AM_CONDITIONAL(QDP_USE_HDF5, [test "x${with_hdf5}x" != "xnox" ])
+
 ##################################
 # Check for programs to build docs
 ##################################

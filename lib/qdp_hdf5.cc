@@ -554,7 +554,7 @@ namespace QDP {
 	//complex types:
 	//Single element:
 	template<>
-	void HDF5::read< PScalar< PScalar< RComplex<float> > > >(const std::string& dataname, ComplexF& datum){
+	void HDF5::read< PScalar< PScalar< RComplex<Word<REAL32> > > > >(const std::string& dataname, ComplexF& datum){
 		//get type:
 		hid_t type_id;
 		readPrepare(dataname,type_id);
@@ -577,7 +577,7 @@ namespace QDP {
 	}
 
 	template<>
-	void HDF5::read< PScalar< PScalar< RComplex<double> > > >(const std::string& dataname, ComplexD& datum){
+	void HDF5::read< PScalar< PScalar< RComplex<Word<REAL64> > > > >(const std::string& dataname, ComplexD& datum){
 		//get type:
 		hid_t type_id;
 		readPrepare(dataname,type_id);
@@ -601,7 +601,7 @@ namespace QDP {
 
 	//array types
 	template<>
-	void HDF5::read<  PScalar< PScalar< RComplex<float> > > >(const std::string& dataname, multi1d<ComplexF>& datum){
+	void HDF5::read<  PScalar< PScalar< RComplex<Word<REAL32> > > > >(const std::string& dataname, multi1d<ComplexF>& datum){
 		//get type:
 		hid_t type_id;
 		readPrepare(dataname,type_id);
@@ -624,7 +624,7 @@ namespace QDP {
 	}
 
 	template<>
-	void HDF5::read< PScalar< PScalar< RComplex<double> > > >(const std::string& dataname, multi1d<ComplexD>& datum){
+	void HDF5::read< PScalar< PScalar< RComplex<Word<REAL64> > > > >(const std::string& dataname, multi1d<ComplexD>& datum){
 		//get type:
 		hid_t type_id;
 		readPrepare(dataname,type_id);
@@ -785,7 +785,7 @@ namespace QDP {
 
 	//read LatticeColorMatrix
 	template<>
-	void HDF5::read< PScalar< PColorMatrix< RComplex<REAL64>, 3> > >(const std::string& name, LatticeColorMatrixD3& field){
+	void HDF5::read< PScalar< PColorMatrix< RComplex<Word<REAL64> >, 3> > >(const std::string& name, LatticeColorMatrixD3& field){
 		StopWatch swatch_prepare, swatch_datatypes, swatch_reorder, swatch_read;
 		
 		//read dataset extents:
@@ -860,7 +860,7 @@ namespace QDP {
 
 	//QDP Lattice IO:
 	template<>
-	void HDF5::read< PScalar< PColorMatrix< RComplex<REAL64>, 3> > >(const std::string& name, multi1d<LatticeColorMatrixD3>& field){
+	void HDF5::read< PScalar< PColorMatrix< RComplex<Word<REAL64> >, 3> > >(const std::string& name, multi1d<LatticeColorMatrixD3>& field){
 		StopWatch swatch_prepare, swatch_datatypes, swatch_reorder, swatch_read;
 		
 		//read dataset extents: 
@@ -1454,7 +1454,7 @@ namespace QDP {
 	//***********************************************************************************************************************************
 	//complex types:
 	//Single element:
-	template<>void HDF5Writer::write< PScalar< PScalar< RComplex<float> > > >(const std::string& dataname, const ComplexF& datum, const bool& overwrite){
+	template<>void HDF5Writer::write< PScalar< PScalar< RComplex<Word<REAL32> > > > >(const std::string& dataname, const ComplexF& datum, const bool& overwrite){
 	hid_t type_id;
 	bool exists=objectExists(file_id,".ComplexFloat");
 	if(!exists){
@@ -1474,7 +1474,7 @@ namespace QDP {
 }
 
 template<>
-void HDF5Writer::write< PScalar< PScalar< RComplex<double> > > >(const std::string& dataname, const ComplexD& datum, const bool& overwrite){
+void HDF5Writer::write< PScalar< PScalar< RComplex<Word<REAL64> > > > >(const std::string& dataname, const ComplexD& datum, const bool& overwrite){
 	hid_t type_id;
 	bool exists=objectExists(file_id,".ComplexDouble");
 	if(!exists){
@@ -1495,7 +1495,7 @@ void HDF5Writer::write< PScalar< PScalar< RComplex<double> > > >(const std::stri
 
 //array types
 template<>
-void HDF5Writer::write< PScalar< PScalar< RComplex<float> > > >(const std::string& dataname, const multi1d<ComplexF>& datum, const bool& overwrite){
+void HDF5Writer::write< PScalar< PScalar< RComplex<Word<REAL32> > > > >(const std::string& dataname, const multi1d<ComplexF>& datum, const bool& overwrite){
 	hid_t type_id;
 	bool exists=objectExists(file_id,".ComplexFloat");
 	if(!exists){
@@ -1515,7 +1515,7 @@ void HDF5Writer::write< PScalar< PScalar< RComplex<float> > > >(const std::strin
 }
 
 template<>
-void HDF5Writer::write< PScalar< PScalar< RComplex<double> > > >(const std::string& dataname, const multi1d<ComplexD>& datum, const bool& overwrite){
+void HDF5Writer::write< PScalar< PScalar< RComplex<Word<REAL64> > > > >(const std::string& dataname, const multi1d<ComplexD>& datum, const bool& overwrite){
 	hid_t type_id;
 	bool exists=objectExists(file_id,".ComplexDouble");
 	if(!exists){
@@ -1536,7 +1536,7 @@ void HDF5Writer::write< PScalar< PScalar< RComplex<double> > > >(const std::stri
 
 //ColorMatrix:
 template<>
-void HDF5Writer::write< PScalar< PColorMatrix< RComplex<REAL32>, 3> > >(const std::string& dataname, const ColorMatrixF3& datum, const bool& overwrite){
+void HDF5Writer::write< PScalar< PColorMatrix< RComplex<Word<REAL32> >, 3> > >(const std::string& dataname, const ColorMatrixF3& datum, const bool& overwrite){
 	//first get complex type:
 	hid_t complex_id, colmat_id;
 	bool exists=objectExists(file_id,".ComplexFloat");
@@ -1570,7 +1570,7 @@ void HDF5Writer::write< PScalar< PColorMatrix< RComplex<REAL32>, 3> > >(const st
 }
 
 template<>
-void HDF5Writer::write< PScalar< PColorMatrix< RComplex<REAL64>, 3> > >(const std::string& dataname, const ColorMatrixD3& datum, const bool& overwrite){
+void HDF5Writer::write< PScalar< PColorMatrix< RComplex<Word<REAL64> >, 3> > >(const std::string& dataname, const ColorMatrixD3& datum, const bool& overwrite){
 	//first get complex type:
 	hid_t complex_id, colmat_id;
 	bool exists=objectExists(file_id,".ComplexDouble");
@@ -1796,7 +1796,7 @@ void HDF5Writer::write(const std::string& name, const LatticeColorMatrixF3& fiel
 
 //double lattice color matrix:
 template<>
-void HDF5Writer::write< PScalar< PColorMatrix< RComplex<REAL64>, 3> > >(const std::string& name, const LatticeColorMatrixD3& field, const bool& overwrite)
+void HDF5Writer::write< PScalar< PColorMatrix< RComplex<Word<REAL64> >, 3> > >(const std::string& name, const LatticeColorMatrixD3& field, const bool& overwrite)
 {
 	StopWatch swatch_prepare, swatch_reorder, swatch_write, swatch_datatypes;
 	  
@@ -1876,7 +1876,7 @@ void HDF5Writer::write< PScalar< PColorMatrix< RComplex<REAL64>, 3> > >(const st
 
 //write chroma configuration:
 template<>
-void HDF5Writer::write< PScalar< PColorMatrix< RComplex<REAL64>, 3> > >(const std::string& name, const multi1d<LatticeColorMatrixD3>& field, const bool& overwrite)
+void HDF5Writer::write< PScalar< PColorMatrix< RComplex<Word<REAL64> >, 3> > >(const std::string& name, const multi1d<LatticeColorMatrixD3>& field, const bool& overwrite)
 {
 	StopWatch swatch_prepare, swatch_reorder, swatch_write, swatch_datatypes;
 	  
