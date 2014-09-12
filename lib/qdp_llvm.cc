@@ -34,7 +34,7 @@ namespace QDP {
   llvm::Value *r_arg_ordered;
   llvm::Value *r_arg_start;
 
-  llvm::OwningPtr<llvm::Module> module_libdevice;
+  std::unique_ptr<llvm::Module> module_libdevice;
 
   llvm::Type* llvm_type<float>::value;
   llvm::Type* llvm_type<double>::value;
@@ -974,6 +974,7 @@ namespace QDP {
 
 
   void llvm_print_module( llvm::Module* m , const char * fname ) {
+#if 0
     std::string ErrorMsg;
     llvm::raw_fd_ostream outfd( fname ,ErrorMsg, llvm::sys::fs::OpenFlags::F_Text);
     llvm::outs() << ErrorMsg << "\n";
@@ -986,6 +987,7 @@ namespace QDP {
       PM.run( *m );
 #endif
     }
+#endif
   }
 
 
@@ -1073,7 +1075,7 @@ namespace QDP {
     std::string error;
     unsigned OpenFlags = 0;
     OpenFlags |= llvm::raw_fd_ostream::F_Binary;
-    llvm::OwningPtr<llvm::tool_output_file> Out( new llvm::tool_output_file( "test.bc" , error, OpenFlags) );
+    std::unique_ptr<llvm::tool_output_file> Out( new llvm::tool_output_file( "test.bc" , error, OpenFlags) );
     if (!Out) {
       llvm::errs() << "Could not create OwningPtr<tool_output_file>\n";
       exit(1);

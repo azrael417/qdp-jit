@@ -1,6 +1,8 @@
 #ifndef QDP_LLVM
 #define QDP_LLVM
 
+//#define USE_LLVM_34
+
 //#define __STDC_LIMIT_MACROS
 //#define __STDC_CONSTANT_MACROS
 
@@ -23,7 +25,6 @@
 #include "llvm/Target/TargetLowering.h"
 #include "llvm/Target/TargetLibraryInfo.h"
 #include "llvm/Support/ToolOutputFile.h"
-#include "llvm/ADT/OwningPtr.h"
 #include "llvm/Support/FormattedStream.h"
 #include "llvm/IR/DataLayout.h"
 #include "llvm/Support/SourceMgr.h"
@@ -45,7 +46,7 @@
 #include "llvm/Support/DataStream.h"
 #include "llvm/ADT/Statistic.h"
 #include "llvm/Support/Program.h"
-#include "llvm/Support/system_error.h"
+//#include "llvm/Support/system_error.h"
 #include "llvm/Support/MemoryBuffer.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/Support/Host.h"
@@ -58,8 +59,17 @@
 
 #include "llvm/ExecutionEngine/ExecutionEngine.h"
 #include "llvm/ExecutionEngine/MCJIT.h"
+
+#ifdef USE_LLVM_34
+#include "llvm/Analysis/Verifier.h"
+#include "llvm/Assembly/AssemblyAnnotationWriter.h"
+#else
 #include "llvm/IR/Verifier.h"
 #include "llvm/IR/AssemblyAnnotationWriter.h"
+#endif
+
+
+
 
 namespace llvm {
 ModulePass *createNVVMReflectPass(const StringMap<int>&);
