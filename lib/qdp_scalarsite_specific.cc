@@ -25,7 +25,7 @@ namespace Layout
       QDP_error_exit("dimension out of bounds");
 
     if (!availCoord[mu]) {
-      QDPIO::cout << "creating latticeCoordinate " << mu << "\n";
+      QDPIO::cout << "creating latticeCoordinate " << mu << "..." << flush;
       const int nodeSites = Layout::sitesOnNode();
       const int nodeNumber = Layout::nodeNumber();
       LatticeInteger d;
@@ -36,6 +36,8 @@ namespace Layout
 	}
       latCoord[mu] = d;
       availCoord[mu] = true;
+	  
+	  QDPIO::cout << "done!" << endl;
     }
 
     return latCoord[mu];
@@ -88,8 +90,8 @@ void Set::make(const SetFunc& fun)
     int lin    = Layout::linearSiteIndex(coord);
     int icolor = fun(coord);
 
-#if QDP_DEBUG >= 3
-    cerr<<"linear="<<linear<<" coord="<<coord<<" node="<<node<<" col="<<icolor << endl;
+#if QDP_DEBUG >= 4
+    QDPIO::cerr<<"linear="<<linear<<" coord="<<coord<<" node="<<node<<" col="<<icolor << endl;
 #endif
 
     // Sanity checks

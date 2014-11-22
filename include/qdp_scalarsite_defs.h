@@ -49,9 +49,11 @@ typedef OLattice< PScalar< PColorVector< RComplex<Word<REAL> >, Nc> > > LatticeC
 typedef OLattice< PSpinVector< PScalar< RComplex<Word<REAL> > >, Ns> > LatticeSpinVector;
 typedef OLattice< PScalar< PColorMatrix< RComplex<Word<REAL> >, Nc> > > LatticeColorMatrix;
 typedef OLattice< PSpinMatrix< PScalar< RComplex<Word<REAL> > >, Ns> > LatticeSpinMatrix;
+typedef OLattice< PSpinMatrix< PScalar< RComplex<Word<REAL> > >, (Ns>>1) > > LatticeHalfSpinMatrix;
 typedef OLattice< PSpinVector< PColorVector< RComplex<Word<REAL> >, Nc>, Ns> > LatticeFermion;
 typedef OLattice< PSpinVector< PColorVector< RComplex<Word<REAL> >, Nc>, (Ns>>1) > > LatticeHalfFermion;
 typedef OLattice< PSpinMatrix< PColorMatrix< RComplex<Word<REAL> >, Nc>, Ns> > LatticePropagator;
+typedef OLattice< PSpinMatrix< PColorMatrix< RComplex<Word<REAL> >, Nc>, (Ns>>1) > > LatticeHalfPropagator;
 typedef OLattice< PScalar< PScalar< RComplex<Word<REAL> > > > > LatticeComplex;
 
 typedef OLattice< PScalar< PSeed < RScalar<Word<INTEGER32> > > > > LatticeSeed;
@@ -64,9 +66,11 @@ typedef OScalar< PScalar< PColorVector< RComplex<Word<REAL> >, Nc> > > ColorVect
 typedef OScalar< PScalar< PColorMatrix< RComplex<Word<REAL> >, Nc> > > ColorMatrix;
 typedef OScalar< PSpinVector< PScalar< RComplex<Word<REAL> > >, Ns> > SpinVector;
 typedef OScalar< PSpinMatrix< PScalar< RComplex<Word<REAL> > >, Ns> > SpinMatrix;
+typedef OScalar< PSpinMatrix< PScalar< RComplex<Word<REAL> > >, (Ns>>1) > > HalfSpinMatrix;
 typedef OScalar< PSpinVector< PColorVector< RComplex<Word<REAL> >, Nc>, Ns> > Fermion;
 typedef OScalar< PSpinVector< PColorVector< RComplex<Word<REAL> >, Nc>, (Ns>>1) > > HalfFermion;
 typedef OScalar< PSpinMatrix< PColorMatrix< RComplex<Word<REAL> >, Nc>, Ns> > Propagator;
+typedef OScalar< PSpinMatrix< PColorMatrix< RComplex<Word<REAL> >, Nc>, (Ns>>1) > > HalfPropagator;
 typedef OScalar< PScalar< PScalar< RComplex<Word<REAL> > > > > Complex;
 
 typedef OScalar< PScalar< PSeed< RScalar<Word<INTEGER32> > > > > Seed;
@@ -122,18 +126,22 @@ typedef OLattice< PScalar< PColorVector< RComplex<Word<DOUBLE> >, Nc> > > Lattic
 typedef OLattice< PSpinVector< PScalar< RComplex<Word<DOUBLE> > >, Ns> > LatticeDSpinVector;
 typedef OLattice< PScalar< PColorMatrix< RComplex<Word<DOUBLE> >, Nc> > > LatticeDColorMatrix;
 typedef OLattice< PSpinMatrix< PScalar< RComplex<Word<DOUBLE> > >, Ns> > LatticeDSpinMatrix;
+typedef OLattice< PSpinMatrix< PScalar< RComplex<Word<DOUBLE> > >, (Ns>>1) > > LatticeDHalfSpinMatrix;
 typedef OLattice< PSpinVector< PColorVector< RComplex<Word<DOUBLE> >, Nc>, Ns> > LatticeDFermion;
 typedef OLattice< PSpinVector< PColorVector< RComplex<Word<DOUBLE> >, Nc>, (Ns>>1) > > LatticeDHalfFermion;
 typedef OLattice< PSpinMatrix< PColorMatrix< RComplex<Word<DOUBLE> >, Nc>, Ns> > LatticeDPropagator;
+typedef OLattice< PSpinMatrix< PColorMatrix< RComplex<Word<DOUBLE> >, Nc>, (Ns>>1) > > LatticeDHalfPropagator;
 typedef OLattice< PScalar< PScalar< RComplex<Word<DOUBLE> > > > > LatticeDComplex;
 
 typedef OScalar< PScalar< PColorVector< RComplex<Word<DOUBLE> >, Nc> > > DColorVector;
 typedef OScalar< PScalar< PColorMatrix< RComplex<Word<DOUBLE> >, Nc> > > DColorMatrix;
 typedef OScalar< PSpinVector< PScalar< RComplex<Word<DOUBLE> > >, Ns> > DSpinVector;
 typedef OScalar< PSpinMatrix< PScalar< RComplex<Word<DOUBLE> > >, Ns> > DSpinMatrix;
+typedef OScalar< PSpinMatrix< PScalar< RComplex<Word<DOUBLE> > >, (Ns>>1) > > DHalfSpinMatrix;
 typedef OScalar< PSpinVector< PColorVector< RComplex<Word<DOUBLE> >, Nc>, Ns> > DFermion;
 typedef OScalar< PSpinVector< PColorVector< RComplex<Word<DOUBLE> >, Nc>, (Ns>>1) > > DHalfFermion;
 typedef OScalar< PSpinMatrix< PColorMatrix< RComplex<Word<DOUBLE> >, Nc>, Ns> > DPropagator;
+typedef OScalar< PSpinMatrix< PColorMatrix< RComplex<Word<DOUBLE> >, Nc>, (Ns>>1) > > DHalfPropagator;
 typedef OScalar< PScalar< PScalar< RComplex<Word<DOUBLE> > > > > DComplex;
 
 

@@ -25,7 +25,7 @@ namespace QDP {
     MasterMap() {
       //QDP_info("MasterMap() reserving");
 
-      QDPIO::cerr << "constructing master map with " << MasterSet::Instance().numSubsets() << " subsets\n";
+      QDPIO::cerr << "constructing master map with " << MasterSet::Instance().numSubsets() << " subsets: start\n";
 
       powerSet.resize( MasterSet::Instance().numSubsets() );
       powerSetC.resize( MasterSet::Instance().numSubsets() );
@@ -37,6 +37,8 @@ namespace QDP {
 	powerSet[s_no].resize(1);
 	powerSet[s_no][0] = new multi1d<int>;
       }
+	  
+	  QDPIO::cerr << "constructing master map with " << MasterSet::Instance().numSubsets() << " subsets: done\n";
     }
 
     std::vector<const Map*> vecPMap;

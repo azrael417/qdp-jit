@@ -66,6 +66,7 @@ namespace QDP {
 	//error handler:
 	hid_t HDF5::errorHandler(hid_t errstack, void* unused){
 		QDPIO::cout << "Some error occured, but we do not care at the moment!" << std::endl;
+		return errstack;
 	}
 
 	//lookup routines:
@@ -459,11 +460,13 @@ namespace QDP {
 		char* datumcpy=new char[size];
 		hid_t plist_id = H5Pcreate(H5P_DATASET_XFER);
 		H5Pset_dxpl_mpio(plist_id, H5FD_MPIO_COLLECTIVE);
-		H5Dread(dset_id,type_id,H5S_ALL,H5S_ALL,plist_id,reinterpret_cast<void*>(datumcpy));
+		hid_t nat_type_id=H5Tget_native_type(type_id,H5T_DIR_ASCEND);
+		H5Dread(dset_id,nat_type_id,H5S_ALL,H5S_ALL,plist_id,reinterpret_cast<void*>(datumcpy));
 		datum=std::string(datumcpy);
 		delete [] datumcpy;
 		H5Pclose(plist_id);
 		H5Dclose(dset_id);
+		H5Tclose(nat_type_id);
 		H5Tclose(type_id);
 	}
 
@@ -754,6 +757,7 @@ namespace QDP {
 
 		hsize_t rank = static_cast<hsize_t>(dimensions);
 		hid_t memspace = H5Screate_simple(rank, dim_size, NULL);
+		hid_t nat_type_id=H5Tget_native_type(type_id,H5T_DIR_ASCEND);
 
 		// read:
 		for(int i = 0; i < blocks; ++ i) {
@@ -761,11 +765,11 @@ namespace QDP {
 			H5Sselect_hyperslab(filespace, H5S_SELECT_SET, const_cast<const hsize_t*>(offset),
 			NULL, const_cast<const hsize_t*>(dim_size), NULL);
 			if(float_size == 4) {
-				err = H5Dread(dset_id, type_id, memspace, filespace, plist_id, static_cast<void*>(buf32));
+				err = H5Dread(dset_id, nat_type_id, memspace, filespace, plist_id, static_cast<void*>(buf32));
 				for(ullong j = 0; j < total_size; j ++)
 					(buf + i * total_size)[j] = static_cast<REAL>(buf32[j]);
 			} else {
-				err = H5Dread(dset_id, type_id, memspace, filespace, plist_id, static_cast<void*>(buf64));
+				err = H5Dread(dset_id, nat_type_id, memspace, filespace, plist_id, static_cast<void*>(buf64));
 				for(ullong j = 0; j < total_size; j ++)
 					(buf + i * total_size)[j] = static_cast<REAL>(buf64[j]);
 			} // if-else                                                                                                                                                                                                                                                                                                                                                        
@@ -780,6 +784,7 @@ namespace QDP {
 		H5Pclose(plist_id);
 		H5Sclose(memspace);
 		H5Sclose(filespace);
+		H5Tclose(nat_type_id);
 		H5Dclose(dset_id);
 	} // readLattice()  
 

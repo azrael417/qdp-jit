@@ -352,7 +352,7 @@ namespace QDP
 	multi1d<int> coord2 = siteCoords(node,linear);
 	int j = local_site(coord2, lattSize());
       
-#if QDP_DEBUG >= 3
+#if QDP_DEBUG >= 4
 	QDP_info("site= %d   coord= %d %d %d %d   linear= %d node=%d   crd=%d %d %d %d   j= %d",
 		 site,coord1[0],coord1[1],coord1[2],coord1[3],
 		 linear,node,

@@ -313,7 +313,11 @@ namespace QDP {
       QDPIO::cerr << "Creating new module ...\n";
     }
 
-    Mod = new llvm::Module("module", llvm::getGlobalContext());
+	//DEBUG
+    module_libdevice = llvm::make_unique<llvm::Module>("module", llvm::getGlobalContext());
+	Mod=module_libdevice.get();
+	//Mod = new llvm::Module("module", llvm::getGlobalContext());
+	//DEBUG
 
     // llvm::Triple TheTriple;
     // TheTriple.setArch(llvm::Triple::x86_64);
@@ -334,7 +338,10 @@ namespace QDP {
       }
     }
 
-    llvm::EngineBuilder engineBuilder(Mod);
+	//DEBUG
+	//llvm::EngineBuilder engineBuilder(Mod);
+	llvm::EngineBuilder engineBuilder(std::move(module_libdevice));
+	//DEBUG
     engineBuilder.setMCPU(llvm::sys::getHostCPUName());
     if (vec_mattr.size() > 0) 
       engineBuilder.setMAttrs( vec_mattr );
@@ -345,8 +352,11 @@ namespace QDP {
     llvm::TargetOptions targetOptions;
     targetOptions.AllowFPOpFusion = llvm::FPOpFusion::Fast;
     engineBuilder.setTargetOptions( targetOptions );
-
-    TheExecutionEngine = engineBuilder.setUseMCJIT(true).create(); // MCJIT
+	
+	//DEBUG
+    //TheExecutionEngine = engineBuilder.setUseMCJIT(true).create(); // MCJIT
+	TheExecutionEngine = engineBuilder.create(); // MCJIT
+	//DEBUG
     
     assert(TheExecutionEngine && "failed to create LLVM ExecutionEngine with error");
 
@@ -1274,7 +1284,10 @@ namespace QDP {
       //functionPassManager->add(llvm::createVerifierPass(llvm::PrintMessageAction));
       targetMachine->addAnalysisPasses(*functionPassManager);
       functionPassManager->add(new llvm::TargetLibraryInfo(llvm::Triple(Mod->getTargetTriple())));
-      functionPassManager->add(new llvm::DataLayoutPass(Mod));
+	  //DEBUG
+	  functionPassManager->add(new llvm::DataLayoutPass());
+      //functionPassManager->add(new llvm::DataLayoutPass(Mod));
+	  //DEBUG
       functionPassManager->add(llvm::createBasicAliasAnalysisPass());
       functionPassManager->add(llvm::createLICMPass());
       functionPassManager->add(llvm::createGVNPass());

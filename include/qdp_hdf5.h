@@ -245,9 +245,11 @@ namespace QDP {
 			//read
 			hid_t plist_id = H5Pcreate(H5P_DATASET_XFER);
 			H5Pset_dxpl_mpio(plist_id, H5FD_MPIO_COLLECTIVE);
-			H5Dread(dset_id,type_id,H5S_ALL,H5S_ALL,plist_id,static_cast<void*>(&datum));
+			hid_t nat_type_id=H5Tget_native_type(type_id,H5T_DIR_ASCEND);
+			H5Dread(dset_id,nat_type_id,H5S_ALL,H5S_ALL,plist_id,static_cast<void*>(&datum));
 			H5Pclose(plist_id);
 			H5Dclose(dset_id);
+			H5Tclose(nat_type_id);
 			H5Tclose(type_id);
 		}
 
@@ -308,9 +310,11 @@ namespace QDP {
 			ctype* token=new ctype[space_size];
 			hid_t plist_id = H5Pcreate(H5P_DATASET_XFER);
 			H5Pset_dxpl_mpio(plist_id, H5FD_MPIO_COLLECTIVE);
-			H5Dread(dset_id,type_id,H5S_ALL,H5S_ALL,plist_id,static_cast<void*>(token));
+			hid_t nat_type_id=H5Tget_native_type(type_id,H5T_DIR_ASCEND);
+			H5Dread(dset_id,nat_type_id,H5S_ALL,H5S_ALL,plist_id,static_cast<void*>(token));
 			H5Pclose(plist_id);
 			H5Dclose(dset_id);
+			H5Tclose(nat_type_id);
 			H5Tclose(type_id);
 			datum.resize(space_size);
 			for(hsize_t i=0; i<space_size; i++) datum[i]=token[i];
@@ -375,9 +379,11 @@ namespace QDP {
 			ctype* token=new ctype[space_size];
 			hid_t plist_id = H5Pcreate(H5P_DATASET_XFER);
 			H5Pset_dxpl_mpio(plist_id, H5FD_MPIO_COLLECTIVE);
-			H5Dread(dset_id,type_id,H5S_ALL,H5S_ALL,plist_id,static_cast<void*>(token));
+			hid_t nat_type_id=H5Tget_native_type(type_id,H5T_DIR_ASCEND);
+			H5Dread(dset_id,nat_type_id,H5S_ALL,H5S_ALL,plist_id,static_cast<void*>(token));
 			H5Pclose(plist_id);
 			H5Dclose(dset_id);
+			H5Tclose(nat_type_id);
 			H5Tclose(type_id);
 			datum.resize(dims[0],dims[1]);
 			for(hsize_t i=0; i<dims[0]; i++){
@@ -497,14 +503,8 @@ namespace QDP {
 			readPrepare(name,type_id,sizes);
 
 			//sanity check:
-			ullong float_size=0;
-			if(H5Tequal(type_id,H5T_NATIVE_FLOAT)>0){
-				float_size=4;
-			}
-			else if(H5Tequal(type_id,H5T_NATIVE_DOUBLE)>0){
-				float_size=8;
-			}
-			else{
+			ullong float_size=H5Tget_size(type_id);
+			if( float_size!=4 && float_size!=8 ){
 				HDF5_error_exit("HDF5Reader::read: error, datatype mismatch!\n");
 			}
 			H5Tclose(type_id);
@@ -542,14 +542,8 @@ namespace QDP {
 			readPrepare(name,type_id,sizes);
 
 			//sanity check:
-			ullong float_size=0;
-			if(H5Tequal(type_id,H5T_NATIVE_FLOAT)>0){
-				float_size=4;
-			}
-			else if(H5Tequal(type_id,H5T_NATIVE_DOUBLE)>0){
-				float_size=8;
-			}
-			else{
+			ullong float_size=H5Tget_size(type_id);
+			if( float_size!=4 && float_size!=8 ){
 				HDF5_error_exit("HDF5Reader::read: error, datatype mismatch!\n");
 			}
 			H5Tclose(type_id);
@@ -603,15 +597,9 @@ namespace QDP {
 
 			//sanity check:
 			if(profile) swatch_datatypes.start();
-			ullong float_size=0;
-			if(H5Tequal(type_id,H5T_NATIVE_FLOAT)>0){
-				float_size=4;
-			}
-			else if(H5Tequal(type_id,H5T_NATIVE_DOUBLE)>0){
-				float_size=8;
-			}
-			else{
-				HDF5_error_exit("HDF5Reader::read: error, datatype mismatch!");
+			ullong float_size=H5Tget_size(type_id);
+			if( float_size!=4 && float_size!=8 ){
+				HDF5_error_exit("HDF5Reader::read: error, datatype mismatch!\n");
 			}
 			if(sizes.size()!=(Nd+1)){
 				HDF5_error_exit("HDF5Reader::read: error, wrong dimensionality!");
@@ -684,17 +672,10 @@ namespace QDP {
 
 			//check sanity
 			if(profile) swatch_datatypes.start();
-			ullong float_size=0;
-			if(H5Tequal(type_id,H5T_NATIVE_FLOAT)>0){
-				float_size=4;
+			ullong float_size=H5Tget_size(type_id);
+			if( float_size!=4 && float_size!=8 ){
+				HDF5_error_exit("HDF5Reader::read: error, datatype mismatch!\n");
 			}
-			else if(H5Tequal(type_id,H5T_NATIVE_DOUBLE)>0){
-				float_size=8;
-			}
-			else{
-				HDF5_error_exit("HDF5Reader::read: error, datatype mismatch!");
-			}
-
 			if(sizes.size()!=(Nd+1)){
 				HDF5_error_exit("HDF5Reader::read: error, wrong dimensionality!");
 			}

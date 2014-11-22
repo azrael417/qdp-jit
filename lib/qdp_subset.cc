@@ -135,7 +135,7 @@ namespace QDP
   //! Initializer for sets
   void initDefaultSets()
   {
-    QDPIO::cerr << "initDefaultSets\n";
+    QDPIO::cerr << "initDefaultSets: start\n";
 
     // Initialize the red/black checkerboard
     rb.make(SetRBFunc());
@@ -157,6 +157,8 @@ namespace QDP
 
     // COPY the rb[1] to the odd subset
     odd = rb[1];
+	
+	QDPIO::cerr << "initDefaultSets: done\n";
   }
 
 	  

@@ -97,20 +97,20 @@ namespace QDP {
     QMP_status_t err;
 #if QDP_DEBUG >= 3
     QDP_info("Map: send = 0x%x  recv = 0x%x",send_buf,recv_buf);
-    QDP_info("Map: establish send=%d recv=%d",destnodes[0],srcenodes[0]);
-    {
-      const multi1d<int>& me = Layout::nodeCoord();
-      multi1d<int> scrd = Layout::getLogicalCoordFrom(destnodes[0]);
-      multi1d<int> rcrd = Layout::getLogicalCoordFrom(srcenodes[0]);
-
-      QDP_info("Map: establish-info   my_crds=[%d,%d,%d,%d]",me[0],me[1],me[2],me[3]);
-      QDP_info("Map: establish-info send_crds=[%d,%d,%d,%d]",scrd[0],scrd[1],scrd[2],scrd[3]);
-      QDP_info("Map: establish-info recv_crds=[%d,%d,%d,%d]",rcrd[0],rcrd[1],rcrd[2],rcrd[3]);
-    }
+	//QDP_info("Map: establish send=%d recv=%d",destnodes[0],srcenodes[0]);
+    //{
+    //  const multi1d<int>& me = Layout::nodeCoord();
+    //  multi1d<int> scrd = Layout::getLogicalCoordFrom(destnodes[0]);
+    //  multi1d<int> rcrd = Layout::getLogicalCoordFrom(srcenodes[0]);
+    //
+    //  QDP_info("Map: establish-info   my_crds=[%d,%d,%d,%d]",me[0],me[1],me[2],me[3]);
+    //  QDP_info("Map: establish-info send_crds=[%d,%d,%d,%d]",scrd[0],scrd[1],scrd[2],scrd[3]);
+    //  QDP_info("Map: establish-info recv_crds=[%d,%d,%d,%d]",rcrd[0],rcrd[1],rcrd[2],rcrd[3]);
+    //}
 #endif
 
 #if QDP_DEBUG >= 3
-    QDP_info("Map: calling start send=%d recv=%d",destnodes[0],srcenodes[0]);
+    //QDP_info("Map: calling start send=%d recv=%d",destnodes[0],srcenodes[0]);
 #endif
 
 #ifdef GPU_DEBUG_DEEP
