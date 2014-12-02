@@ -35,12 +35,13 @@ namespace QDP {
       myId = omp_get_thread_num();
       lo = ((site_count/inner)*myId/threads_num)*inner;
       hi = ((site_count/inner)*(myId+1)/threads_num)*inner;
+	  hi = (hi >= site_count ? site_count : hi);
 
-      //std::cout << "dispatch: " << lo << " " << hi << " " << myId << " " << ordered << " " << start << "\n";
+      //std::cout << "dispatch: site-count=" << site_count << " lo=" << lo << " hi=" << hi << " myid=" << myId << " ordered=" << ordered << " start=" << start << "\n";
 
       FP( lo , hi , myId , ordered, start, addr );
     }
-
+	
     //QDPIO::cerr << "         (returned)\n";
   }
 

@@ -54,13 +54,15 @@ namespace QDP {
 				exists=true;
 			}
 			input.close();
+			
+			if(exists){
+				htri_t ex=H5Fis_hdf5(filename.c_str());
+				if(ex<=0) exists=false;
+			}
 		}
 		QDPInternal::broadcast(exists);
-		if(!exists) return false;
-
-		htri_t ex=H5Fis_hdf5(filename.c_str());
-		if(ex<=0) return false;
-		else return true;
+		
+		return exists;
 	}
 
 	//error handler:
@@ -1017,6 +1019,12 @@ namespace QDP {
 	{
 		//close actual file:
 		close();
+		
+		//check if file exists first:
+		bool exists=check_exists(filename);
+		if(!exists){
+			HDF5_error_exit("HDF5Reader::open: error, file does not exist!");
+		}
 
 		//create file access property control list:
 		hid_t fapl_id = H5Pcreate(H5P_FILE_ACCESS);
@@ -1032,35 +1040,15 @@ namespace QDP {
 		QMP_get_hidden_comm(QMP_comm_get_default(),reinterpret_cast<void**>(&mpicomm));
 		H5Pset_fapl_mpio(fapl_id,*mpicomm, info);
    
-		//on node 0, test if file exists:
-		bool exists=false;
-		if(Layout::nodeNumber()==0){
-			std::ifstream input(filename.c_str(),std::ios_base::binary);
-			if(input.good()){
-				exists=true;
-			}
-			input.close();
-		}
-		QDPInternal::broadcast(exists);
-
-		if(!exists){
-			HDF5_error_exit("HDF5Reader::open: error, file does not exist!");
-		}
-		else{
-			//collective file opening:
-			htri_t ex=H5Fis_hdf5(filename.c_str());
-			if(ex<=0){
-				HDF5_error_exit("HDF5Reader::open: error, file is not in HDF5-Format!");
-			}
-			file_id=H5Fopen(filename.c_str(),H5F_ACC_RDONLY,fapl_id);
-			H5Pclose(fapl_id);
+		
+		file_id=H5Fopen(filename.c_str(),H5F_ACC_RDONLY,fapl_id);
+		H5Pclose(fapl_id);
       
-			if(file_id<0){
-				HDF5_error_exit("HDF5Reader::open: could not open file "+filename+" for reading.");
-			}
-      
-			current_group=file_id;
+		if(file_id<0){
+			HDF5_error_exit("HDF5Reader::open: could not open file "+filename+" for reading.");
 		}
+      
+		current_group=file_id;
 	}
 
 
