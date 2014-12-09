@@ -172,7 +172,7 @@ namespace QDP {
   {
     return llvm::Function::Create( 
            llvm::FunctionType::get( 
-           builder->getFloatTy(),llvm::ArrayRef<llvm::Type*>( builder->getFloatTy() ) , false) , 
+				   builder->getFloatTy(),llvm::ArrayRef<llvm::Type*>( builder->getFloatTy() ) , false) , 
            llvm::Function::ExternalLinkage, name , Mod );
   }
 
@@ -338,10 +338,7 @@ namespace QDP {
       }
     }
 
-	//DEBUG
-	//llvm::EngineBuilder engineBuilder(Mod);
-	llvm::EngineBuilder engineBuilder(std::move(module_libdevice));
-	//DEBUG
+    llvm::EngineBuilder engineBuilder(std::move(std::unique_ptr<llvm::Module>(Mod)));
     engineBuilder.setMCPU(llvm::sys::getHostCPUName());
     if (vec_mattr.size() > 0) 
       engineBuilder.setMAttrs( vec_mattr );
@@ -352,11 +349,7 @@ namespace QDP {
     llvm::TargetOptions targetOptions;
     targetOptions.AllowFPOpFusion = llvm::FPOpFusion::Fast;
     engineBuilder.setTargetOptions( targetOptions );
-	
-	//DEBUG
-    //TheExecutionEngine = engineBuilder.setUseMCJIT(true).create(); // MCJIT
-	TheExecutionEngine = engineBuilder.create(); // MCJIT
-	//DEBUG
+    TheExecutionEngine = engineBuilder.create(); // MCJIT
     
     assert(TheExecutionEngine && "failed to create LLVM ExecutionEngine with error");
 
@@ -985,9 +978,9 @@ namespace QDP {
 
   void llvm_print_module( llvm::Module* m , const char * fname ) {
 #if 0
-    std::string ErrorMsg;
-    llvm::raw_fd_ostream outfd( fname ,ErrorMsg, llvm::sys::fs::OpenFlags::F_Text);
-    llvm::outs() << ErrorMsg << "\n";
+    std::error_code EC;
+    llvm::raw_fd_ostream outfd( fname , EC, llvm::sys::fs::OpenFlags::F_Text);
+    //ASSERT_FALSE(outfd.has_error());
     std::string banner;
     {
       llvm::outs() << "llvm_print_module ni\n";
@@ -1087,7 +1080,7 @@ namespace QDP {
     OpenFlags |= llvm::raw_fd_ostream::F_Binary;
     std::unique_ptr<llvm::tool_output_file> Out( new llvm::tool_output_file( "test.bc" , error, OpenFlags) );
     if (!Out) {
-      llvm::errs() << "Could not create OwningPtr<tool_output_file>\n";
+      llvm::errs() << "Could not create std::unique_ptr<tool_output_file>\n";
       exit(1);
     }
     llvm::formatted_raw_ostream fros(Out->os());
@@ -1284,10 +1277,7 @@ namespace QDP {
       //functionPassManager->add(llvm::createVerifierPass(llvm::PrintMessageAction));
       targetMachine->addAnalysisPasses(*functionPassManager);
       functionPassManager->add(new llvm::TargetLibraryInfo(llvm::Triple(Mod->getTargetTriple())));
-	  //DEBUG
-	  functionPassManager->add(new llvm::DataLayoutPass());
-      //functionPassManager->add(new llvm::DataLayoutPass(Mod));
-	  //DEBUG
+      functionPassManager->add(new llvm::DataLayoutPass());
       functionPassManager->add(llvm::createBasicAliasAnalysisPass());
       functionPassManager->add(llvm::createLICMPass());
       functionPassManager->add(llvm::createGVNPass());
