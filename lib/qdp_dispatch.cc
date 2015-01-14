@@ -29,15 +29,13 @@ namespace QDP {
 
     //QDPIO::cerr << "dispatch...\n";
 
-#pragma omp parallel shared(site_count, threads_num, ordered, start, addr) private(myId, lo, hi) default(shared)
+	#pragma omp parallel firstprivate(site_count,ordered,start) shared(addr,FP) private(threads_num, myId, lo, hi) default(shared)
     {
-      threads_num = omp_get_num_threads();
+	  threads_num=omp_get_num_threads();
       myId = omp_get_thread_num();
       lo = ((site_count/inner)*myId/threads_num)*inner;
       hi = ((site_count/inner)*(myId+1)/threads_num)*inner;
-	  hi = (hi >= site_count ? site_count : hi);
-
-      //std::cout << "dispatch: site-count=" << site_count << " lo=" << lo << " hi=" << hi << " myid=" << myId << " ordered=" << ordered << " start=" << start << "\n";
+	  hi = (hi > site_count ? site_count : hi);
 
       FP( lo , hi , myId , ordered, start, addr );
     }
